@@ -81,8 +81,8 @@ services:
         depends_on:
             - mysql
         command: tcp mysql_db:3306 -t 30s -i 250ms
-	networks:
-	    - sail
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
