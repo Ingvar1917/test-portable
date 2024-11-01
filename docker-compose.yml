@@ -23,7 +23,8 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
+            mysql:
+                condition: service_healthy
             - redis
             - mosquitto
     mysql:
