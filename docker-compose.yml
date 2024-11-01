@@ -25,8 +25,7 @@ services:
         depends_on:
             mysql:
                 condition: service_healthy
-            redis:
-                condition: service_healthy
+
     mysql:
         image: 'mysql/mysql-server:8.0'
         #        ports:
@@ -40,7 +39,7 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - 'sail-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+        #            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
             - sail
         healthcheck:
@@ -53,8 +52,8 @@ services:
             timeout: 5s
     redis:
         image: 'redis:alpine'
-        ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        #        ports:
+        #            - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
             - 'sail-redis:/data'
         networks:
@@ -77,13 +76,6 @@ services:
         networks:
             - sail
 
-    wait-for-db:
-        image: atkrad/wait4x
-        depends_on:
-            - mysql
-        command: tcp mysql_db:3306 -t 30s -i 250ms
-        networks:
-            - sail
 networks:
     sail:
         driver: bridge
