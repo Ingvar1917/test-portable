@@ -75,6 +75,14 @@ services:
             - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
         networks:
             - sail
+
+    wait-for-db:
+        image: atkrad/wait4x
+        depends_on:
+            - mysql
+        command: tcp mysql_db:3306 -t 30s -i 250ms
+	networks:
+	    - sail
 networks:
     sail:
         driver: bridge
